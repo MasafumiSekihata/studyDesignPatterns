@@ -1,4 +1,4 @@
-# デザインパターン一覧
+# Gofデザインパターン一覧
 
 ## 概要
 
@@ -84,7 +84,6 @@ BaseAnimal <|-- Cat
 Food <-- BaseAnimal:create
 DogFood <-- Dog:create
 CatFood <-- Cat:create
-
 
 @enduml
 ```
