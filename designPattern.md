@@ -468,6 +468,8 @@ public class Dog extends BaseAnimal {
 - **特徴**
   - 複雑なオブジェクト生成用のクラスを使う
   - 「作成過程」のDirector「表現形式」のBuilderを組み合わせる
+  - 同じ形式のオブジェクトが対象？  
+    若干異なってしまえばもう使えない？
 - **利点**
   - オブジェクト生成が柔軟にできる
 - **欠点**
@@ -477,20 +479,113 @@ public class Dog extends BaseAnimal {
 @startuml
 title Builder
 class Director {
-    builder
-    constractor()
+    breedingBuilder
+    constract()
 }
 
 interface BreedingBuilder {
     #feed()
     #walk()
-    #
+    #play()
 }
+
+class BreedingDogBuilder {
+    feed()
+    walk()
+    play()
+}
+
+class BreedingCatBuilder {
+    feed()
+    walk()
+    play()
+}
+
+Director o- BreedingBuilder
+BreedingBuilder <|.. BreedingDogBuilder
+BreedingBuilder <|.. BreedingCatBuilder
+
 @enduml
 ```
 
 **サンプル**
 ```java
+// メインクラス
+//
+// BreedingBuilder builder = new BreedingDogBuilder(); ⬅︎ ここを切り替えれば処理の流れが同じで、処理対象の切り替えが可能
+// Director director = new Director(builder);
+// director.constract();
+//
+
+/**
+ * ペットの世話用インターフェース
+ */
+public interface BreedingBuilder {
+    void feed();
+    void walk();
+    void play();
+}
+
+/**
+ * 処理過程を定義するディレクター
+ */
+public class Director {
+    private BreedingBuilder breedingBuilder;
+    public Director(BreedingBuilder builder) {
+        this.breedingBuilder = builder;
+    }
+
+    public constract(){
+        this.breedingBuilder.feed();
+        this.breedingBuilder.walk();
+        this.breedingBuilder.play()
+    }
+}
+
+/**
+ * 犬の世話用クラス
+ */
+public class BreedingDogBuilder implements BreedingBuilder {
+    
+    @Override
+    public void feed() {
+        System.out.println("feed a dog");
+    }
+
+    @Override
+    public void wald() {
+        System.out.println("walk a dog");
+    }
+
+    @Override
+    public void play() {
+        System.out.println("play a dog");
+    }
+}
+
+/**
+ * 猫の世話用クラス
+ */ 
+public class BreedingCatBuilder implements BreedingBuilder {
+    
+    @Override
+    public void feed() {
+        System.out.println("feed a cat");
+    }
+
+    @Override
+    public void wald() {
+        System.out.println("walk a cat");
+    }
+
+    @Override
+    public void play() {
+        System.out.println("play a cat");
+    }
+}
+
+
+
 ```
 
 
