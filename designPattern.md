@@ -514,16 +514,19 @@ BreedingBuilder <|.. BreedingCatBuilder
 //
 // BreedingBuilder builder = new BreedingDogBuilder(); ⬅︎ ここを切り替えれば処理の流れが同じで、処理対象の切り替えが可能
 // Director director = new Director(builder);
-// director.constract();
+// director.constract(); // 犬の世話をする
 //
+// BreedingBuilder builder = new BreedingCatBuilder();
+// Director director = new Director(builder);
+// director.constract(); // 猫の世話をする
 
 /**
  * ペットの世話用インターフェース
  */
 public interface BreedingBuilder {
-    void feed();
-    void walk();
-    void play();
+    void feed(); // 餌をあげる
+    void walk(); // 散歩をする
+    void play(); // 遊びをする
 }
 
 /**
@@ -549,17 +552,17 @@ public class BreedingDogBuilder implements BreedingBuilder {
     
     @Override
     public void feed() {
-        System.out.println("feed a dog");
+        System.out.println("feed the dog");
     }
 
     @Override
     public void wald() {
-        System.out.println("walk a dog");
+        System.out.println("walk the dog");
     }
 
     @Override
     public void play() {
-        System.out.println("play a dog");
+        System.out.println("play with the dog");
     }
 }
 
@@ -570,22 +573,20 @@ public class BreedingCatBuilder implements BreedingBuilder {
     
     @Override
     public void feed() {
-        System.out.println("feed a cat");
+        System.out.println("feed the cat");
     }
 
     @Override
     public void wald() {
-        System.out.println("walk a cat");
+        // 猫とも散歩はできる
+        System.out.println("walk the cat");
     }
 
     @Override
     public void play() {
-        System.out.println("play a cat");
+        System.out.println("play with the cat");
     }
 }
-
-
-
 ```
 
 
