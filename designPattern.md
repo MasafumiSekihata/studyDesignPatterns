@@ -38,7 +38,9 @@
 - **Strategy**：アルゴリズム切り替え
 - **Visitor**：構造の便利スキャナ
 
+
 ## 詳細
+
 
 ### ***FactoryMethod***
 - **特徴**
@@ -50,7 +52,6 @@
   - インスタンスの生成を子クラスによって変更できる
   - クラス間の依存性をごっそり削れる
 - **欠点**
-
 
 **クラス図**
 ```plantuml
@@ -190,6 +191,9 @@ public class Dog extends BaseAnimal {
     }
 }
 ```
+
+
+
 
 ### ***Abstract Factory***
 - **特徴**
@@ -341,6 +345,8 @@ public class CatSetProductFactory implements SetProductFactory {
 ```
 
 
+
+
 ### ***Builder***
 - **特徴**
   - 複雑なオブジェクト生成用のクラスを使う
@@ -467,6 +473,48 @@ public class BreedingCatBuilder implements BreedingBuilder {
 ```
 
 
+
+### ***Singletonパターン***
+- **特徴**
+  - コンストラクタをprivateにすることで、他からインスタンスを作成できないようにする
+  - インスタンスが欲しい場合はgetInstanceで取得
+  - どんな時に使うのが適している？
+  ➡︎ Factoryクラスとか？
+  - staticメソッドとの違いは？
+    - Singletonクラスの継承が可能
+    ➡︎ メリットは？
+    - s
+
+  - mtrではどこで使われている…？
+- **利点**
+  - インスタンスが一つのみであることを保証する
+- **欠点**
+
+**クラス図**
+```plantuml
+@startuml
+title Singleton
+class Singleton {
+    -{static}instance
+    -Singleton()
+    +{static}getInstance()
+}
+@enduml
+```
+**サンプル**
+```java
+public class Singleton {
+    private static Singleton instance = new Singleton();
+    private Singleton() {}
+    public static Singleton getInstance() {
+        return this.instance;
+    }
+}
+```
+
+
+
+
 ### ***TemplateMethod***
 - **特徴**
   - 親クラスが処理の枠組みのみを持ち、実装は子クラスに任せる。
@@ -589,27 +637,6 @@ public class Dog extends BaseAnimal {
     ・
 }
 ```
-
-
-### ***Prototypeパターン***
-- **特徴**
-  - インスタンスをコピーする
-- **利点**
-- **欠点**
-**クラス図**
-```plantuml
-@startuml
-title タイトル
-@enduml
-```
-**サンプル**
-```java
-
-```
-
-
-
-
 
 
 
