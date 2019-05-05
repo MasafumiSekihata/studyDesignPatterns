@@ -474,7 +474,7 @@ public class BreedingCatBuilder implements BreedingBuilder {
 
 
 
-### ***Singletonパターン***
+### ***Singleton***
 - **特徴**
   - コンストラクタをprivateにすることで、他からインスタンスを作成できないようにする
   - インスタンスが欲しい場合はgetInstanceで取得
