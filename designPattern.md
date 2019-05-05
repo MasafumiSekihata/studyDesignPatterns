@@ -340,129 +340,6 @@ public class CatSetProductFactory implements SetProductFactory {
 
 ```
 
-### ***TemplateMethod***
-- **特徴**
-  - 親クラスが処理の枠組みのみを持ち、実装は子クラスに任せる。
-  - DelegateとImpl
-  - 一連の処理の流れが決まってて具体的には色々パターンがあるときに使う。
-- **利点**
-  - 実装上の大まかな流れを決めることができる。
-  - main()でのインスタンス生成方法は変わらず、処理を変えることができる。
-  - 同じような処理をするクラスをいい感じにまとめて、親クラスのメソッドで一気に実行する。
-- **欠点**
-  - サブクラスの数が増える。
-  - 親クラスと子クラスの関連が密接
-
-**クラス図**
-```plantuml
-@startuml
-title TemplateMethodPattern
-
-abstract "BaseAnimal" as BaseClass {
-    #{abstract} bark()
-    #{abstract} eat()
-    #{abstract} sleep()
-    +active()
-}
-class "dog" as ClassA {
-    bark()
-    eat()
-    sleet()
-}
-class "cat" as ClassB {
-    bark()
-    eat()
-    sleet()
-}
-
-BaseClass <|-- ClassA
-BaseClass <|-- ClassB
-
-@enduml
-```
-
-**サンプル**
-```java
-public class Main {
-
-    public static void main(String[] arg) {
-        BaseAnimal cat = new Cat();
-        cat.active();
-        BaseAnimal dog = new Dog();
-        dog.active();
-    }
-}
-
-public class Food {
-    private String name = "";   // 名前
-    private int price = 0;  // 値段
-    private int amount = 0; // 量
-
-    public Food(String name, int price, int amount) {
-        this.name = name;
-        this.price = price;
-        this.amount = amount;
-    }
-    public getName() {
-        ...
-    }
-    public getPrice() {
-        ...
-    }
-    public getAmoutn() {
-        ...
-    }
-}
-
-//////////////////////////////////////////
-// CatとDogという似ているクラスが存在する。
-// BaseAnimalを作って、大まかな処理を決めてやる。
-//////////////////////////////////////////
-public abstract class BaseAnimal {
-    // 抽象メソッド
-    protected abstract String bark();
-    protected abstract void eat(Food food); // ※Food：後々はAnimal毎に食べ物を分けてあげたい。
-    protected abstract void sleep(); 
-
-    ////////////////////////////////////////////////
-    // 子クラスが実装したであろう各メソッドを実行するメソッド
-    ////////////////////////////////////////////////
-    public void active() {
-        String voice = bark();
-        System.out.println(voice);
-        Food food = new Food();
-        eat(food);
-        sleep();
-    }
-}
-
-public class Cat extends BaseAnimal { 
-
-    private String voice = "meow";
-
-    @Override
-    public String bark() {
-        return voice;
-    }
-
-    @Override
-    public void eat(Food food) {
-        System.out.println(food.getName() + " eating");
-    }
-
-    @Override
-    public void sleep() {
-        System.out.println("cat is sleeping");
-    }
-}
-
-public class Dog extends BaseAnimal {
-    ・
-    ・
-    ・
-}
-```
-
 
 ### ***Builder***
 - **特徴**
@@ -588,6 +465,152 @@ public class BreedingCatBuilder implements BreedingBuilder {
     }
 }
 ```
+
+
+### ***TemplateMethod***
+- **特徴**
+  - 親クラスが処理の枠組みのみを持ち、実装は子クラスに任せる。
+  - DelegateとImpl
+  - 一連の処理の流れが決まってて具体的には色々パターンがあるときに使う。
+- **利点**
+  - 実装上の大まかな流れを決めることができる。
+  - main()でのインスタンス生成方法は変わらず、処理を変えることができる。
+  - 同じような処理をするクラスをいい感じにまとめて、親クラスのメソッドで一気に実行する。
+- **欠点**
+  - サブクラスの数が増える。
+  - 親クラスと子クラスの関連が密接
+
+**クラス図**
+```plantuml
+@startuml
+title TemplateMethodPattern
+
+abstract "BaseAnimal" as BaseClass {
+    #{abstract} bark()
+    #{abstract} eat()
+    #{abstract} sleep()
+    +active()
+}
+class "dog" as ClassA {
+    bark()
+    eat()
+    sleet()
+}
+class "cat" as ClassB {
+    bark()
+    eat()
+    sleet()
+}
+
+BaseClass <|-- ClassA
+BaseClass <|-- ClassB
+
+@enduml
+```
+
+**サンプル**
+```java
+public class Main {
+
+    public static void main(String[] arg) {
+        BaseAnimal cat = new Cat();
+        cat.active();
+        BaseAnimal dog = new Dog();
+        dog.active();
+    }
+}
+
+public class Food {
+    private String name = "";   // 名前
+    private int price = 0;  // 値段
+    private int amount = 0; // 量
+
+    public Food(String name, int price, int amount) {
+        this.name = name;
+        this.price = price;
+        this.amount = amount;
+    }
+    public getName() {
+        ...
+    }
+    public getPrice() {
+        ...
+    }
+    public getAmoutn() {
+        ...
+    }
+}
+
+//////////////////////////////////////////
+// CatとDogという似ているクラスが存在する。
+// BaseAnimalを作って、大まかな処理を決めてやる。
+//////////////////////////////////////////
+public abstract class BaseAnimal {
+    // 抽象メソッド
+    protected abstract String bark();
+    protected abstract void eat(Food food); // ※Food：後々はAnimal毎に食べ物を分けてあげたい。
+    protected abstract void sleep(); 
+
+    ////////////////////////////////////////////////
+    // 子クラスが実装したであろう各メソッドを実行するメソッド
+    ////////////////////////////////////////////////
+    public void active() {
+        String voice = bark();
+        System.out.println(voice);
+        Food food = new Food();
+        eat(food);
+        sleep();
+    }
+}
+
+public class Cat extends BaseAnimal { 
+
+    private String voice = "meow";
+
+    @Override
+    public String bark() {
+        return voice;
+    }
+
+    @Override
+    public void eat(Food food) {
+        System.out.println(food.getName() + " eating");
+    }
+
+    @Override
+    public void sleep() {
+        System.out.println("cat is sleeping");
+    }
+}
+
+public class Dog extends BaseAnimal {
+    ・
+    ・
+    ・
+}
+```
+
+
+### ***Prototypeパターン***
+- **特徴**
+  - インスタンスをコピーする
+- **利点**
+- **欠点**
+**クラス図**
+```plantuml
+@startuml
+title タイトル
+@enduml
+```
+**サンプル**
+```java
+
+```
+
+
+
+
+
 
 
 
