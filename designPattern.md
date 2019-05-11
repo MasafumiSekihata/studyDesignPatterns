@@ -47,7 +47,8 @@
   - インスタンスの生成を動的に変更できるようにする。
     1. インスタンス生成用メソッドを子クラスで実装する。
     2. 親クラスのメソッドを呼ぶようにしといて、実際は子クラスで生成したインスタンスを呼び出す。
-  - クラス内で利用するオブジェクトを切り替えたい時（CatFoodとDogFood）にcreate()を使って動的に切り替える
+  - Mainクラス内で利用するオブジェクトを切り替えたい時（CatFoodとDogFood）にcreate***()を使って動的に切り替える
+  - ポリモーフィズムを使ってインスタンスを生成しているだけのように見える
 - **利点**
   - インスタンスの生成を子クラスによって変更できる
   - クラス間の依存性をごっそり削れる
@@ -67,7 +68,7 @@ class "CatFood" as CatFood {
     constructor()
 }
 abstract "BaseAnimal" as BaseAnimal {
-    #abstract createFood()
+    #{abstract} createFood()
 }
 class "Dog" as Dog {
     createFood()
@@ -95,27 +96,25 @@ public class Main {
 
     public static void main(String[] arg) {
         BaseAnimal cat = new Cat();
+        // ポリモーフィズム
         cat.active();
+
         BaseAnimal dog = new Dog();
+        // ポリモーフィズム
         dog.active();
     }
 }
 
-public class Food {
-    private String name = "";
-    private int price = 0;
-    private int amount = 0;
-
-    public Food(String name, int price, int amount) {
-        this.name = name;
-        this.price = price;
-        this.amount = amount;
-    }
-    .
-    .
-    .
+/**
+ * ベースとなる餌インターフェース
+ */
+public interface Food {
+    // nop
 }
 
+/**
+ * 猫用餌クラス
+ */
 public class CatFood extends Food {
     private SizeType sizeType = SizeType.DEFAULT;
 
@@ -126,6 +125,9 @@ public class CatFood extends Food {
     }
 }
 
+/**
+ * 犬用餌クラス
+ */
 public class DogFood extends Food {
     private HardType hardType = HardType.DEFAULT;
 
@@ -134,6 +136,7 @@ public class DogFood extends Food {
         this.hardType = hardType;
     }
 }
+
 
 public abstract class BaseAnimal {
     // 抽象メソッド
@@ -255,9 +258,9 @@ CatSetProductFactory --> CatHouse: create
 public static void Main {
     // ↓で動物と動物小屋のセットが正確に取得できる
     SetProductFactory factory = new DogSetProductFactory();
-    // ↑で生成したfactoryから動物が取得できる
+    // factoryから動物が取得できる
     BaseAnimal animal = factory.getAnimal();
-    // ↑で生成したfactoryから動物小屋が取得できる
+    // factoryから動物小屋が取得できる
     BaseAnimalHouse animalHouse = factory.getHouse();
     animal.bark();
     animalHouse.getSize();    
@@ -473,6 +476,26 @@ public class BreedingCatBuilder implements BreedingBuilder {
 ```
 
 
+### ***Prototype***
+- **特徴**
+- **利点**
+- **欠点**
+**クラス図**
+```plantuml
+@startuml
+title Prototype
+interface Cloneable
+class Prototype {
+    {abstract}copy()
+}
+@enduml
+```
+**サンプル**
+```java
+
+```
+
+
 
 ### ***Singleton***
 - **特徴**
@@ -480,10 +503,10 @@ public class BreedingCatBuilder implements BreedingBuilder {
   - インスタンスが欲しい場合はgetInstanceで取得
   - どんな時に使うのが適している？
   ➡︎ Factoryクラスとか？
-  - staticメソッドとの違いは？
-    - Singletonクラスの継承が可能
-    ➡︎ メリットは？
-    - s
+  - staticとの違いは？
+    - Singletonはクラスの継承が可能
+    ➡︎ メリットは？  
+    →
 
   - mtrではどこで使われている…？
 - **利点**
