@@ -566,13 +566,15 @@ public class CatSetProductFactory implements SetProductFactory {
 
 
 
-
 ### ***Builder***
 - **特徴**
   - 複雑なオブジェクト生成用のクラスを使う
   - 「作成過程」のDirector「表現形式」のBuilderを組み合わせる
   - 同じ形式のオブジェクトが対象？  
     若干異なってしまえばもう使えない？
+  - ローカル環境でのAPIとWebBackendのBoot起動クラスの構成で使ってた気がする
+  →API用のBuilderと画面用のBuilderを用意し、同じ流れで起動出来るようにしている。
+　  ➡︎Directorクラスを見つける。
 - **利点**
   - オブジェクト生成が柔軟にできる
 - **欠点**
@@ -614,22 +616,29 @@ BreedingBuilder <|.. BreedingCatBuilder
 **サンプル**
 ```java
 // メインクラス
-//
-// BreedingBuilder builder = new BreedingDogBuilder(); ⬅︎ ここを切り替えれば処理の流れが同じで、処理対象の切り替えが可能
-// Director director = new Director(builder);
-// director.constract(); // 犬の世話をする
-//
-// BreedingBuilder builder = new BreedingCatBuilder();
-// Director director = new Director(builder);
-// director.constract(); // 猫の世話をする
+public class App {
+
+    public static void main(String[] args) {
+        BreedingBuilder builder = new BreedingDogBuilder();
+        Director director = new Director(builder);
+        director.constract();
+
+        builder = new BreedingCatBuilder();
+        director = new Director(builder);
+        director.constract();
+
+    }
+
+}
 
 /**
  * ペットの世話用インターフェース
  */
 public interface BreedingBuilder {
-    void feed(); // 餌をあげる
-    void walk(); // 散歩をする
-    void play(); // 遊びをする
+    void selectAnimal();
+    void feed();
+    void walk();
+    void play();
 }
 
 /**
@@ -637,14 +646,17 @@ public interface BreedingBuilder {
  */
 public class Director {
     private BreedingBuilder breedingBuilder;
+    private BreedingBuilder builder;
+
     public Director(BreedingBuilder builder) {
-        this.breedingBuilder = builder;
+        this.builder = builder;
     }
 
-    public constract(){
-        this.breedingBuilder.feed();
-        this.breedingBuilder.walk();
-        this.breedingBuilder.play()
+    public void constract() {
+        this.builder.selectAnimal();
+        this.builder.feed();
+        this.builder.walk();
+        this.builder.play();
     }
 }
 
@@ -653,19 +665,30 @@ public class Director {
  */
 public class BreedingDogBuilder implements BreedingBuilder {
     
+    private BaseAnimal animal;
+
     @Override
-    public void feed() {
-        System.out.println("feed the dog");
+    public void selectAnimal() {
+        this.animal = new Dog();
     }
 
     @Override
-    public void wald() {
-        System.out.println("walk the dog");
+    public void feed() {
+        Food food = new DogFood("DogFood", 100, 200);
+        this.animal.eat(food);
+    }
+
+    @Override
+    public void walk() {
+        System.out.println("Walking with Dog");
     }
 
     @Override
     public void play() {
-        System.out.println("play with the dog");
+        System.out.println("Play with Dog From");
+        System.out.println(this.animal.bark());
+        this.animal.sleep();
+        System.out.println("Play with Dog To");
     }
 }
 
@@ -675,19 +698,30 @@ public class BreedingDogBuilder implements BreedingBuilder {
 public class BreedingCatBuilder implements BreedingBuilder {
     
     @Override
-    public void feed() {
-        System.out.println("feed the cat");
+    private BaseAnimal animal;
+
+    @Override
+    public void selectAnimal() {
+        this.animal = new Cat();
     }
 
     @Override
-    public void wald() {
-        // 猫とも散歩はできる
-        System.out.println("walk the cat");
+    public void feed() {
+        Food food = new CatFood("CatFood", 50, 100);
+        this.animal.eat(food);
+    }
+
+    @Override
+    public void walk() {
+        System.out.println("Walking with Cat");
     }
 
     @Override
     public void play() {
-        System.out.println("play with the cat");
+        System.out.println("Play with Cat From");
+        System.out.println(this.animal.bark());
+        this.animal.sleep();
+        System.out.println("Play with Cat To");
     }
 }
 ```
