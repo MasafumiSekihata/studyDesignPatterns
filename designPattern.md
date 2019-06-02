@@ -3,27 +3,36 @@
 ## 概要
 
 ### 生成に関するもの
+
 #### クラス
+
 - **Factory Method**：動的にサブクラス選択
+
 #### オブジェクト
+
 - **Abstract Factory**：工場の工場
 - **Builder**：初期化手順を細分化
 - **Prototype**：コピーを渡す
 - **Singleton**：１インスタンスを保証
 
 ### 構造に関するもの
+
 #### クラス
+
 - （クラス向け）**Adapter**：継承でラッパー
+
 #### オブジェクト
+
 - （オブジェクト向け）**Adapter**：委譲でラッパー
 - **Bridge**：拡張と実装の階層分離
 - **Composite**：再帰ツリー構造
-- **Decorator**：委譲で意図的フック         
+- **Decorator**：委譲で意図的フック
 - **Facade**：複数クラス利用手順書
 - **Flyweight**：キャッシュ付の工場
 - **Proxy**：こっそりフック
 
 ### 振る舞いに関するもの
+
 #### クラス
 - **Interpreter**：独自言語の実行
 - **Template Method**：子が処理断片を具体化
@@ -728,38 +737,15 @@ public class BreedingCatBuilder implements BreedingBuilder {
 
 
 
-### ***Prototype***
-- **特徴**
-- **利点**
-- **欠点**
-**クラス図**
-```plantuml
-@startuml
-title Prototype
-interface Cloneable
-class Prototype {
-    {abstract}copy()
-}
-@enduml
-```
-**サンプル**
-```java
-
-```
-
-
-
 ### ***Singleton***
 - **特徴**
   - コンストラクタをprivateにすることで、他からインスタンスを作成できないようにする
   - インスタンスが欲しい場合はgetInstanceで取得
   - どんな時に使うのが適している？
-  ➡︎ Factoryクラスとか？
+  → Factoryクラスとか？
   - staticとの違いは？
     - Singletonはクラスの継承が可能
-    ➡︎ メリットは？  
-    →
-
+      →メリットは？
   - mtrではどこで使われている…？
 - **利点**
   - インスタンスが一つのみであることを保証する
@@ -789,7 +775,25 @@ public class Singleton {
 
 
 
-### ***パターン***
+### ***Adapter***
+- **特徴**
+- **利点**
+- **欠点**
+**クラス図**
+```plantuml
+@startuml
+title タイトル
+@enduml
+```
+**サンプル**
+```java
+
+```
+
+
+
+
+### ***パターン名***
 - **特徴**
 - **利点**
 - **欠点**
