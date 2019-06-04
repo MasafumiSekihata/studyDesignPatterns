@@ -3,31 +3,43 @@
 ## 概要
 
 ### 生成に関するもの
+
 #### クラス
+
 - **Factory Method**：動的にサブクラス選択
+
 #### オブジェクト
+
 - **Abstract Factory**：工場の工場
 - **Builder**：初期化手順を細分化
 - **Prototype**：コピーを渡す
 - **Singleton**：１インスタンスを保証
 
 ### 構造に関するもの
+
 #### クラス
+
 - （クラス向け）**Adapter**：継承でラッパー
+
 #### オブジェクト
+
 - （オブジェクト向け）**Adapter**：委譲でラッパー
 - **Bridge**：拡張と実装の階層分離
 - **Composite**：再帰ツリー構造
-- **Decorator**：委譲で意図的フック         
+- **Decorator**：委譲で意図的フック
 - **Facade**：複数クラス利用手順書
 - **Flyweight**：キャッシュ付の工場
 - **Proxy**：こっそりフック
 
 ### 振る舞いに関するもの
+
 #### クラス
+
 - **Interpreter**：独自言語の実行
 - **Template Method**：子が処理断片を具体化
+
 #### オブジェクト
+
 - **Chain of Responsibility**：助け船ネットワーク
 - **Command**：タスクキューとスタック
 - **Iterator**：並んだ物を順番に処理
@@ -38,8 +50,8 @@
 - **Strategy**：アルゴリズム切り替え
 - **Visitor**：構造の便利スキャナ
 
-
 ## 詳細
+
 1. パターンの特徴をつかめているか
 2. クラス図が妥当か（abstractクラス と interfaceはどう使い分ける）
 3. サンプルクラスがパターンを実装できているか
@@ -48,21 +60,22 @@
 
 ※パターンの順番はテキトー
 
-
 ### ***TemplateMethod***
-- **特徴**
-  - 親クラスが処理の枠組みのみを持ち、実装は子クラスに任せる。
-  - DelegateとImpl
-  - 一連の処理の流れが決まってて具体的には色々パターンがあるときに使う。
-- **利点**
-  - 実装上の大まかな流れを決めることができる。
-  - main()でのインスタンス生成方法は変わらず、処理を変えることができる。
-  - 同じような処理をするクラスをいい感じにまとめて、親クラスのメソッドで一気に実行する。
-- **欠点**
-  - サブクラスの数が増える。
-  - 親クラスと子クラスの関連が密接
 
-**クラス図**
+- **特徴**
+    - 親クラスが処理の枠組みのみを持ち、実装は子クラスに任せる。
+    - DelegateとImpl
+    - 一連の処理の流れが決まってて具体的には色々パターンがあるときに使う。
+- **利点**
+    - 実装上の大まかな流れを決めることができる。
+    - main()でのインスタンス生成方法は変わらず、処理を変えることができる。
+    - 同じような処理をするクラスをいい感じにまとめて、親クラスのメソッドで一気に実行する。
+- **欠点**
+    - サブクラスの数が増える。
+    - 親クラスと子クラスの関連が密接
+
+#### **クラス図**
+
 ```plantuml
 @startuml
 title TemplateMethodPattern
@@ -90,7 +103,8 @@ BaseClass <|-- ClassB
 @enduml
 ```
 
-**サンプル**
+#### **サンプル**
+
 ```java
 public class Main {
 
@@ -172,21 +186,22 @@ public class Dog extends BaseAnimal {
 }
 ```
 
-
-
 ### ***FactoryMethod***
+
 - **特徴**
-  - インスタンスの生成を動的に変更できるようにする。
-    1. インスタンス生成用メソッドを子クラスで実装する。
-    2. 親クラスのメソッドを呼ぶようにしといて、実際は子クラスで生成したインスタンスを呼び出す。
-  - Mainクラス内で利用するオブジェクトを切り替えたい時（CatFoodとDogFood）にcreate***()を使って動的に切り替える
-  - ポリモーフィズムを使ってインスタンスを生成しているだけのように見える
+    - インスタンスの生成を動的に変更できるようにする。
+        1. インスタンス生成用メソッドを子クラスで実装する。
+        2. 親クラスのメソッドを呼ぶようにしといて、実際は子クラスで生成したインスタンスを呼び出す。
+    - Mainクラス内で利用するオブジェクトを切り替えたい時（CatFoodとDogFood）にcreate***()を使って動的に切り替える
+    - ポリモーフィズムを使ってインスタンスを生成しているだけのように見える
 - **利点**
-  - インスタンスの生成を子クラスによって変更できる
-  - クラス間の依存性をごっそり削れる
+    - インスタンスの生成を子クラスによって変更できる
+    - クラス間の依存性をごっそり削れる
 - **欠点**
-  - ...
-**クラス図**
+    - ...
+
+#### **クラス図**
+
 ```plantuml
 @startuml
 title FactoryMethod
@@ -240,7 +255,8 @@ CatFood <-- Cat:create
 @enduml
 ```
 
-**サンプル**
+#### **サンプル**
+
 ```java
 public class App {
 
@@ -350,7 +366,7 @@ public class Cat extends BaseAnimal {
 }
 
 public class Dog extends BaseAnimal {
-    
+
     String voice = "bowWow";
 
     @Override
@@ -371,20 +387,20 @@ public class Dog extends BaseAnimal {
 }
 ```
 
-
-
 ### ***Abstract Factory***
+
 - **特徴**
-  - 同様な**オブジェクト群**をもつクラスをFactoryクラスから呼び出せるようにする
-  - DelegateFactoryとDelegateFactoryImpl(M1)
+    - 同様な**オブジェクト群**をもつクラスをFactoryクラスから呼び出せるようにする
+    - DelegateFactoryとDelegateFactoryImpl(M1)
     ※Delegateを全て取得する  
-  →オブジェクト群を取得したいというよりも、ModelとControllerを切り離したいのか？
-  - オブジェクトの切り替え（DogとDogHouseのペアとCatとCatHouseのペア）をFactoryクラスで行う
+　    →オブジェクト群を取得したいというよりも、ModelとControllerを切り離したいのか？
+    - オブジェクトの切り替え（DogとDogHouseのペアとCatとCatHouseのペア）をFactoryクラスで行う
 - **利点**
-  - FactoryMethodと同じだと思う
+    - FactoryMethodと同じだと思う
 - **欠点**
 
-**クラス図**
+#### **クラス図**
+
 ```plantuml
 @startuml
 title AbstractFactory
@@ -454,7 +470,8 @@ CatSetProductFactory --> CatHouse: create
 @enduml
 ```
 
-**サンプル**
+#### **サンプル**
+
 ```java
 public static void Main {
     /////////////////////////////////////////////////
