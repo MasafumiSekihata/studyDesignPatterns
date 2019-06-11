@@ -34,9 +34,12 @@
 ### 振る舞いに関するもの
 
 #### クラス
+
 - **Interpreter**：独自言語の実行
 - **Template Method**：子が処理断片を具体化
+
 #### オブジェクト
+
 - **Chain of Responsibility**：助け船ネットワーク
 - **Command**：タスクキューとスタック
 - **Iterator**：並んだ物を順番に処理
@@ -47,8 +50,8 @@
 - **Strategy**：アルゴリズム切り替え
 - **Visitor**：構造の便利スキャナ
 
-
 ## 詳細
+
 1. パターンの特徴をつかめているか
 2. クラス図が妥当か（abstractクラス と interfaceはどう使い分ける）
 3. サンプルクラスがパターンを実装できているか
@@ -57,21 +60,22 @@
 
 ※パターンの順番はテキトー
 
-
 ### ***TemplateMethod***
-- **特徴**
-  - 親クラスが処理の枠組みのみを持ち、実装は子クラスに任せる。
-  - DelegateとImpl
-  - 一連の処理の流れが決まってて具体的には色々パターンがあるときに使う。
-- **利点**
-  - 実装上の大まかな流れを決めることができる。
-  - main()でのインスタンス生成方法は変わらず、処理を変えることができる。
-  - 同じような処理をするクラスをいい感じにまとめて、親クラスのメソッドで一気に実行する。
-- **欠点**
-  - サブクラスの数が増える。
-  - 親クラスと子クラスの関連が密接
 
-**クラス図**
+- **特徴**
+    - 親クラスが処理の枠組みのみを持ち、実装は子クラスに任せる。
+    - DelegateとImpl
+    - 一連の処理の流れが決まってて具体的には色々パターンがあるときに使う。
+- **利点**
+    - 実装上の大まかな流れを決めることができる。
+    - main()でのインスタンス生成方法は変わらず、処理を変えることができる。
+    - 同じような処理をするクラスをいい感じにまとめて、親クラスのメソッドで一気に実行する。
+- **欠点**
+    - サブクラスの数が増える。
+    - 親クラスと子クラスの関連が密接
+
+#### **クラス図**
+
 ```plantuml
 @startuml
 title TemplateMethodPattern
@@ -99,7 +103,8 @@ BaseClass <|-- ClassB
 @enduml
 ```
 
-**サンプル**
+#### **サンプル**
+
 ```java
 public class Main {
 
@@ -140,7 +145,7 @@ public abstract class BaseAnimal {
     // 抽象メソッド
     protected abstract String bark();
     protected abstract void eat(Food food); // ※Food：後々はAnimal毎に食べ物を分けてあげたい。
-    protected abstract void sleep(); 
+    protected abstract void sleep();
 
     ////////////////////////////////////////////////
     // 子クラスが実装したであろう各メソッドを実行するメソッド
@@ -154,7 +159,7 @@ public abstract class BaseAnimal {
     }
 }
 
-public class Cat extends BaseAnimal { 
+public class Cat extends BaseAnimal {
 
     private String voice = "meow";
 
@@ -181,21 +186,22 @@ public class Dog extends BaseAnimal {
 }
 ```
 
-
-
 ### ***FactoryMethod***
+
 - **特徴**
-  - インスタンスの生成を動的に変更できるようにする。
-    1. インスタンス生成用メソッドを子クラスで実装する。
-    2. 親クラスのメソッドを呼ぶようにしといて、実際は子クラスで生成したインスタンスを呼び出す。
-  - Mainクラス内で利用するオブジェクトを切り替えたい時（CatFoodとDogFood）にcreate***()を使って動的に切り替える
-  - ポリモーフィズムを使ってインスタンスを生成しているだけのように見える
+    - インスタンスの生成を動的に変更できるようにする。
+        1. インスタンス生成用メソッドを子クラスで実装する。
+        2. 親クラスのメソッドを呼ぶようにしといて、実際は子クラスで生成したインスタンスを呼び出す。
+    - Mainクラス内で利用するオブジェクトを切り替えたい時（CatFoodとDogFood）にcreate***()を使って動的に切り替える
+    - ポリモーフィズムを使ってインスタンスを生成しているだけのように見える
 - **利点**
-  - インスタンスの生成を子クラスによって変更できる
-  - クラス間の依存性をごっそり削れる
+    - インスタンスの生成を子クラスによって変更できる
+    - クラス間の依存性をごっそり削れる
 - **欠点**
-  - ...
-**クラス図**
+    - ...
+
+#### **クラス図**
+
 ```plantuml
 @startuml
 title FactoryMethod
@@ -249,7 +255,8 @@ CatFood <-- Cat:create
 @enduml
 ```
 
-**サンプル**
+#### **サンプル**
+
 ```java
 public class App {
 
@@ -337,7 +344,7 @@ public abstract class BaseAnimal {
     }
 }
 
-public class Cat extends BaseAnimal { 
+public class Cat extends BaseAnimal {
 
     private String voice = "meow";
 
@@ -359,7 +366,7 @@ public class Cat extends BaseAnimal {
 }
 
 public class Dog extends BaseAnimal {
-    
+
     String voice = "bowWow";
 
     @Override
@@ -380,20 +387,20 @@ public class Dog extends BaseAnimal {
 }
 ```
 
-
-
 ### ***Abstract Factory***
+
 - **特徴**
-  - 同様な**オブジェクト群**をもつクラスをFactoryクラスから呼び出せるようにする
-  - DelegateFactoryとDelegateFactoryImpl(M1)
+    - 同様な**オブジェクト群**をもつクラスをFactoryクラスから呼び出せるようにする
+    - DelegateFactoryとDelegateFactoryImpl(M1)
     ※Delegateを全て取得する  
-  →オブジェクト群を取得したいというよりも、ModelとControllerを切り離したいのか？
-  - オブジェクトの切り替え（DogとDogHouseのペアとCatとCatHouseのペア）をFactoryクラスで行う
+　    →オブジェクト群を取得したいというよりも、ModelとControllerを切り離したいのか？
+    - オブジェクトの切り替え（DogとDogHouseのペアとCatとCatHouseのペア）をFactoryクラスで行う
 - **利点**
-  - FactoryMethodと同じだと思う
+    - FactoryMethodと同じだと思う
 - **欠点**
 
-**クラス図**
+#### **クラス図**
+
 ```plantuml
 @startuml
 title AbstractFactory
@@ -463,7 +470,8 @@ CatSetProductFactory --> CatHouse: create
 @enduml
 ```
 
-**サンプル**
+#### **サンプル**
+
 ```java
 public static void Main {
     /////////////////////////////////////////////////
@@ -505,7 +513,7 @@ public class Cat extends BaseAnimal {
     ・
     ・
     ・
-} 
+}
 
 public abstract class BaseAnimalHouse {
     public abstract String getHouseName();
@@ -519,7 +527,7 @@ public class DogHouse extends BaseAnimalHouse {
     ・
     ・
     ・
-} 
+}
 
 /**
  * 猫小屋（ないとは思うけど..）
@@ -573,22 +581,22 @@ public class CatSetProductFactory implements SetProductFactory {
 
 ```
 
-
-
 ### ***Builder***
+
 - **特徴**
-  - 複雑なオブジェクト生成用のクラスを使う
-  - 「作成過程」のDirector「表現形式」のBuilderを組み合わせる
-  - 同じ形式のオブジェクトが対象？  
+    - 複雑なオブジェクト生成用のクラスを使う
+    - 「作成過程」のDirector「表現形式」のBuilderを組み合わせる
+    - 同じ形式のオブジェクトが対象？  
     若干異なってしまえばもう使えない？
-  - ローカル環境でのAPIとWebBackendのBoot起動クラスの構成で使ってた気がする
-  →API用のBuilderと画面用のBuilderを用意し、同じ流れで起動出来るようにしている。
-　  ➡︎Directorクラスを見つける。
+    - ローカル環境でのAPIとWebBackendのBoot起動クラスの構成で使ってた気がする
+　    →API用のBuilderと画面用のBuilderを用意し、同じ流れで起動出来るようにしている。
+　　    ➡︎Directorクラスを見つける。
 - **利点**
-  - オブジェクト生成が柔軟にできる
+    - オブジェクト生成が柔軟にできる
 - **欠点**
 
-**クラス図**
+#### **クラス図**
+
 ```plantuml
 @startuml
 title Builder
@@ -622,7 +630,8 @@ BreedingBuilder <|.. BreedingCatBuilder
 @enduml
 ```
 
-**サンプル**
+#### **サンプル**
+
 ```java
 // メインクラス
 public class App {
@@ -673,7 +682,7 @@ public class Director {
  * 犬の世話用クラス
  */
 public class BreedingDogBuilder implements BreedingBuilder {
-    
+
     private BaseAnimal animal;
 
     @Override
@@ -703,9 +712,9 @@ public class BreedingDogBuilder implements BreedingBuilder {
 
 /**
  * 猫の世話用クラス
- */ 
+ */
 public class BreedingCatBuilder implements BreedingBuilder {
-    
+
     @Override
     private BaseAnimal animal;
 
@@ -735,23 +744,49 @@ public class BreedingCatBuilder implements BreedingBuilder {
 }
 ```
 
+### ***Prototype***
 
-
-### ***Singleton***
 - **特徴**
-  - コンストラクタをprivateにすることで、他からインスタンスを作成できないようにする
-  - インスタンスが欲しい場合はgetInstanceで取得
-  - どんな時に使うのが適している？
-  → Factoryクラスとか？
-  - staticとの違いは？
-    - Singletonはクラスの継承が可能
-      →メリットは？
-  - mtrではどこで使われている…？
 - **利点**
-  - インスタンスが一つのみであることを保証する
 - **欠点**
 
-**クラス図**
+#### **クラス図**
+
+```plantuml
+@startuml
+title Prototype
+interface Cloneable
+class Prototype {
+    {abstract}copy()
+}
+@enduml
+```
+
+#### **サンプル**
+
+```java
+
+```
+
+### ***Singleton***
+
+- **特徴**
+    - コンストラクタをprivateにすることで、他からインスタンスを作成できないようにする
+    - インスタンスが欲しい場合はgetInstanceで取得
+    - どんな時に使うのが適している？
+      ➡︎ Factoryクラスとか？
+    - staticとの違いは？
+    - Singletonはクラスの継承が可能
+    ➡︎ メリットは？  
+    →
+
+    - mtrではどこで使われている…？
+- **利点**
+    - インスタンスが一つのみであることを保証する
+- **欠点**
+
+#### **クラス図**
+
 ```plantuml
 @startuml
 title Singleton
@@ -762,7 +797,9 @@ class Singleton {
 }
 @enduml
 ```
-**サンプル**
+
+#### **サンプル**
+
 ```java
 public class Singleton {
     private static Singleton instance = new Singleton();
@@ -773,37 +810,42 @@ public class Singleton {
 }
 ```
 
-
-
 ### ***Adapter***
+
 - **特徴**
 - **利点**
 - **欠点**
-**クラス図**
+
+#### **クラス図**
+
 ```plantuml
 @startuml
 title タイトル
 @enduml
 ```
-**サンプル**
+
+#### **サンプル**
+
 ```java
 
 ```
 
-
-
-
 ### ***パターン名***
+
 - **特徴**
 - **利点**
 - **欠点**
-**クラス図**
+
+#### **クラス図**
+
 ```plantuml
 @startuml
 title タイトル
 @enduml
 ```
-**サンプル**
+
+#### **サンプル**
+
 ```java
 
 ```
